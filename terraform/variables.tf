@@ -20,5 +20,5 @@ variable "region" {
 
 variable "github_username" {
   description = "Your GitHub username"
-  default     = "LedouxS"
+  default     = "Sylvanus668"
 }

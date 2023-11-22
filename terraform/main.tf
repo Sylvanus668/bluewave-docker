@@ -281,16 +281,19 @@ resource "aws_iam_role_policy_attachment" "ssm_managed_instance_core_attachment"
 resource "aws_iam_role_policy_attachment" "ssm_patch_attachment" {
   role       = aws_iam_role.ec2_ecr_role.name
   policy_arn = data.aws_iam_policy.policy_ssm_patch.arn
+  depends_on = [ aws_iam_role_policy_attachment.ssm_managed_instance_core_attachment ]
 }
 
 resource "aws_iam_role_policy_attachment" "iam_policy_2_attachment" {
   role       = aws_iam_role.ec2_ecr_role.name
   policy_arn = aws_iam_policy.iam_policy_2.arn
+  depends_on = [ aws_iam_role_policy_attachment.ssm_patch_attachment ]
 }
 
 resource "aws_iam_role_policy_attachment" "ecr_read_policy_attachment" {
   role       = aws_iam_role.ec2_ecr_role.name
   policy_arn = aws_iam_policy.ecr_read_policy.arn
+  depends_on = [ aws_iam_role_policy_attachment.iam_policy_2_attachment]
 }
 
 resource "aws_iam_instance_profile" "ec2_ecr_instance_profile" {
